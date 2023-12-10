@@ -12,7 +12,7 @@ const yourAPIKey = "aa6978fd-ba8e-49fc-9527-bd40ad5670cd";
 const yourBearerToken = "c100a53f-f953-439b-a4ab-53f5596a8f39";
 
 app.get("/", (req, res) => {
-  res.render("index.ejs", { content: "API Response." });
+  res.render("index.ejs", {content: "API Response."});
 });
 
 app.get("/noAuth", async (req, res) => {
@@ -44,7 +44,11 @@ app.get("/basicAuth", async (req, res) => {
     });
   */
   try{
-    const response = await axios.get(API_URL + "all?page=2", {auth:{username: yourUsername, password: yourPassword}})
+    const response = await axios.get(API_URL + "all?page=2", {
+      auth: {
+        username: yourUsername, 
+        password: yourPassword
+      }})
     const results = JSON.stringify(response.data)
     res.render("index.ejs", {content: results})
   }
@@ -59,7 +63,8 @@ app.get("/apiKey", async (req, res) => {
   //Filter for all secrets with an embarassment score of 5 or greater
   //HINT: You need to provide a query parameter of apiKey in the request.
   try{
-    const response = await axios.get(API_URL + "filter?score=5&apiKey=" + yourAPIKey)
+    const response = await axios.get(API_URL + "filter?score=5&apiKey=" 
+      + yourAPIKey)
     const results = JSON.stringify(response.data)
     res.render("index.ejs", {content: results})
   }
@@ -82,7 +87,10 @@ app.get("/bearerToken", async (req, res) => {
   });
   */
  try{
-    const response = await axios.get(API_URL + "secrets/42", {headers: { Authorization: `Bearer ` + yourBearerToken}})
+    const response = await axios.get(API_URL + "secrets/42", {
+      headers: { 
+        Authorization: `Bearer ` + yourBearerToken
+      }})
     const results = JSON.stringify(response.data)
     res.render("index.ejs", {content: results})
  }
