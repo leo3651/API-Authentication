@@ -20,15 +20,14 @@ app.get("/noAuth", async (req, res) => {
   //The data you get back should be sent to the ejs file as "content"
   //Hint: make sure you use JSON.stringify to turn the JS object from axios into a string.
   try{
-  const response = await axios.get(API_URL + "random")
-  const results = JSON.stringify(response.data)
-  res.render("index.ejs", {content: results})    
+    const response = await axios.get(API_URL + "random")
+    const results = JSON.stringify(response.data)
+    res.render("index.ejs", {content: results})    
   }
   catch (error){
     console.error("Error: ", error.message)
     res.render("index.ejs", {content: "Error."});
   }
-
 });
 
 app.get("/basicAuth", async (req, res) => {
@@ -70,7 +69,7 @@ app.get("/apiKey", async (req, res) => {
   }
 });
 
-app.get("/bearerToken", (req, res) => {
+app.get("/bearerToken", async (req, res) => {
   //TODO 5: Write your code here to hit up the /secrets/{id} endpoint
   //and get the secret with id of 42
   //HINT: This is how you can use axios to do bearer token auth:
@@ -82,6 +81,15 @@ app.get("/bearerToken", (req, res) => {
     },
   });
   */
+ try{
+    const response = await axios.get(API_URL + "secrets/42", {headers: { Authorization: `Bearer ` + yourBearerToken}})
+    const results = JSON.stringify(response.data)
+    res.render("index.ejs", {content: results})
+ }
+ catch(error){
+    console.error("Error: ", error.message)
+    res.render("index.ejs", {content: "Error"})
+ }
 });
 
 app.listen(port, () => {
